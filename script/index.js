@@ -120,13 +120,16 @@ function createCandles() {
 
 // Main GSAP Animation Timeline
 function animationTimeline() {
-  const textBoxChars = document.querySelector(".hbd-chatbox");
+  const textBoxChars = document.querySelectorAll(".hbd-chatbox");
   const hbd = document.querySelector(".wish-hbd");
 
-  if (textBoxChars) {
-    textBoxChars.innerHTML = `<span>${textBoxChars.innerHTML
-      .split("")
-      .join("</span><span>")}</span>`;
+  if (textBoxChars.length) {
+    textBoxChars.forEach((box) => {
+      if (box.querySelector("span")) return;
+      box.innerHTML = `<span>${box.innerHTML
+        .split("")
+        .join("</span><span>")}</span>`;
+    });
   }
 
   if (hbd) {
@@ -149,6 +152,8 @@ function animationTimeline() {
     skewX: "-15deg",
   };
 
+  gsap.set(".section-five .text-box", { autoAlpha: 0, scale: 0.2 });
+
   tl = gsap.timeline();
 
   tl.to(".timeline-container", 0.6, { visibility: "visible" })
@@ -159,10 +164,15 @@ function animationTimeline() {
     .from(".section-three", 0.7, { opacity: 0, y: 10 })
     .to(".section-three", 0.7, { opacity: 0, y: 10 }, "+=2.5")
     .from(".section-four", 0.7, { scale: 0.2, opacity: 0 })
-    .from(".fake-btn", 0.3, { scale: 1, opacity: 1 })
-    .staggerTo(".hbd-chatbox span", 1.5, { visibility: "visible" }, 0.05)
+    .from(".section-four .fake-btn", 0.3, { scale: 1, opacity: 1 })
+    .staggerTo(
+      ".section-four .hbd-chatbox span",
+      1.5,
+      { visibility: "visible" },
+      0.05
+    )
     .to(
-      ".fake-btn",
+      ".section-four .fake-btn",
       0.1,
       {
         background: "linear-gradient(135deg, #FFD54F 0%, #FF4DA6 100%)",
@@ -174,7 +184,7 @@ function animationTimeline() {
       "+=3.5"
     )
     .to(
-      ".fake-btn",
+      ".section-four .fake-btn",
       0.2,
       {
         scale: 1,
@@ -185,6 +195,43 @@ function animationTimeline() {
       "+=0.1"
     )
     .to(".section-four", 0.5, { scale: 0.2, opacity: 0, y: -150 }, "+=1")
+    .to(".section-five .text-box", 0.7, { autoAlpha: 1, scale: 1 })
+    .from(".section-five .fake-btn", 0.3, { scale: 1, opacity: 1 })
+    .staggerTo(
+      ".section-five .hbd-chatbox span",
+      1.5,
+      { visibility: "visible" },
+      0.05
+    )
+    .to(
+      ".section-five .fake-btn",
+      0.1,
+      {
+        background: "linear-gradient(135deg, #FFD54F 0%, #FF4DA6 100%)",
+        scale: 0.95,
+        y: 2,
+        boxShadow: "0 2px 5px rgba(255, 77, 166, 0.4)",
+        ease: "power2.inOut",
+      },
+      "+=3.5"
+    )
+    .to(
+      ".section-five .fake-btn",
+      0.2,
+      {
+        scale: 1,
+        y: 0,
+        boxShadow: "0 5px 15px rgba(255, 77, 166, 0.4)",
+        ease: "back.out(1.7)",
+      },
+      "+=0.1"
+    )
+    .to(
+      ".section-five .text-box",
+      0.5,
+      { autoAlpha: 0, scale: 0.2, y: -150 },
+      "+=1"
+    )
     .from(".idea-1", 0.7, ideaTextTrans)
     .to(".idea-1", 0.7, ideaTextTransLeave, "+=2")
     .from(".idea-2", 0.7, ideaTextTrans)
